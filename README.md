@@ -1,8 +1,8 @@
 ﻿# MLDL Study Repository
 - It's a repo for MLDL & OpenCV & NLP study review
 
-### MLDL
-### OpenCV
+## MLDL
+## OpenCV
 #### [OpenCV 찍어먹기](./OpenCV_class/OpenCV_CLASS_desc.md)
 
 - OpenCV 기초와 영상데이터 처리
@@ -13,8 +13,8 @@
 - GAN
 - 프로젝트
 
-### NLP
+## NLP
 
 
-### Resource
+## Resource
 - OpenCV4로 배우는 컴퓨터 비전과 머신러닝
