@@ -1,8 +1,7 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
 using namespace std;
+stack<int> s;
 
-/*
-*/
 int main(void){
     s.push(5);
     s.push(2);
@@ -16,7 +15,7 @@ int main(void){
     //스택의 최상단 원소부터 출력
     while (!s.empty()){
         
-        cout << s.top() << '';
+        cout << s.top() <<' ';
         s.pop();
 
     }
