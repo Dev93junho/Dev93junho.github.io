@@ -54,3 +54,17 @@ class CNN_model(nn.Module):
     criterion = nn.CrossEntropyLoss()
 
 # Learning the data
+def train_step(): # batch? epoch? decline parameters
+    pass
+
+# result
+'''
+matplotlib으로 학습결과를 Visualize
+'''
+
+# 예측 
+'''
+훈련결과 예측하기
+'''
+def predict(dataset):
+    pass
