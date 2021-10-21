@@ -1,4 +1,4 @@
-// 2780
+// 2750
 
 #include <iostream>
 using namespace std;
@@ -32,4 +32,27 @@ int main(void)
     }
 }
 
-//
+//2751 : vector, algorithm header 사용
+/*
+개인적인 소견으로 공부하면서 외부 라이브러리는
+최대한 지양해야할 방향 생각됨.
+특히 algorithm 라이브러리의 경우 실력향상에 방해될 것 같음
+*/
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+int main(){
+    int n, temp;
+    vector <int> a;
+    cin >> n;
+    for(int i =0; i < n; i++){
+        cin >> temp;
+        a.push_back(temp);
+    }
+    sort(a.begin(), a.end());
+    for (int i = 0; i < n; i++){
+        cout << a[i] << '\n';
+    }
+}
