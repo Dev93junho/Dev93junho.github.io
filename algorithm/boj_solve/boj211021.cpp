@@ -37,6 +37,9 @@ int main(void)
 개인적인 소견으로 공부하면서 외부 라이브러리는
 최대한 지양해야할 방향 생각됨.
 특히 algorithm 라이브러리의 경우 실력향상에 방해될 것 같음
+c++ Standard Template Library(STL)은 극히 제한하자
+vector : 메모리 heap에 생성되어 동적할당되어짐
+array에 비해 성능이 떨어지나 메모리를 효율적으로 관리하고 예외처리가 쉬움
 */
 #include <iostream>
 #include <algorithm>
