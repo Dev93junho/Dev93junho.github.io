@@ -59,3 +59,32 @@ int main(){
         cout << a[i] << '\n';
     }
 }
+
+// 1427 : sort inside
+/*
+방법을 두가지 써보자
+m1 : algorithm 라이브러리를 사용한 경우
+m2 : iostream과 같은 기본 라이브러리만 사용한 경우 
+*/
+
+//m1. algorithm 라이브러리를 사용한 경우
+// 이 경우 sort 함수를 이용한다
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+char arr[10];
+int main(void){
+    cin>>arr;
+
+    sort(arr, arr+strlen(arr), greater<int>());
+    for (int i=0; i<strlen(arr); i++){
+        cout <<arr[i];
+    }
+
+    return 0;
+}
+
+
+//m2. iostream 만 사용한 경우
+//Bubble Sort?
