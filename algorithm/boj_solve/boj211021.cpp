@@ -88,3 +88,37 @@ int main(void){
 
 //m2. iostream 만 사용한 경우
 //Bubble Sort?
+
+
+//2839
+#include <iostream>
+using namespace std;
+int main(void){
+    int N, m, remainder, quotient;
+    cin >>N;
+    m = N/5; // 5kg 봉지 최대 개수
+    while(m >=0){
+        //initialize variable
+        remainder = 0;
+        quotient = 0;
+        if(m > 0)
+        {
+            remainder = N - 5*m;
+            quotient = m;
+        }
+        else
+            remainder = N;
+        // 3kg 봉지 개수
+        quotient += remainder / 3;
+        remainder = remainder % 3;
+        
+        if( remainder == 0)
+        {
+            cout << quotient;
+            break;
+        }
+        m--; // 나누어 떨어지지 않을 경우 5kg 봉지 개수를 줄임        
+    }
+    if(remainder !=0)
+        cout << -1;
+}
