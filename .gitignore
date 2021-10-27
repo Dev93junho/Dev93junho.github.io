@@ -181,6 +181,7 @@ cython_debug/
 # Common
 *.exe
 *.csv
+*/.previous/*
 
 # data folder
 */.carbon_NLP/*
