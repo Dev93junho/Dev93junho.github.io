@@ -7,8 +7,8 @@
 
 
 ## Neural Net
+### Activation Function
 
-## Learning! Neural Net
 
 ## Back Propagate
 
