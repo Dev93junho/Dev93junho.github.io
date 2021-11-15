@@ -8,7 +8,14 @@
 
 ## Neural Net
 ### Activation Function
-
+01. sigmoid
+02. Leaky ReLU
+03. tanh
+04. Maxout
+05. ReLU
+06. ELU
+07. Swish
+08. SoftMax
 
 ## Back Propagate
 
