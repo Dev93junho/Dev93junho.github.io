@@ -24,27 +24,34 @@ print(x_test.shape[0], 'test samples')
 
 batch_size = 128
 num_classes = 10
-epochs = 12 # 정확한 분류를 위해 epoch을 높게 잡아도 됨. 그럼 최적 epoch은?
+epochs = 3 # 정확한 분류를 위해 epoch을 높게 잡아도 됨. 그럼 최적 epoch은?
 
 # to_categorical 을 사용한다면 다음과 같이 변경해서 사용할 것 ** keras utils => keras.utils import np_utils **
 y_train = np_utils.to_categorical(y_train, num_classes) 
 y_test = np_utils.to_categorical(y_test, num_classes)
 
-model = Sequential()
-model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='same', activation='relu', input_shape=input_shape))
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Flatten())
-model.add(Dense(1000, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(num_classes, activation='softmax'))
-model.summary()
+# Build model
+model = Sequential([
+    Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='same', activation='relu', input_shape=input_shape),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(64, (2, 2), activation='relu', padding='same'),
+    MaxPooling2D(pool_size=(2, 2)),
+    Dropout(0.25),
+    Flatten(),
+    Dense(1000, activation='relu'),
+    Dropout(0.5),
+    Dense(num_classes, activation='softmax'),
+    Dense(1)
+])
 
+# Compile model
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 hist = model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(x_test, y_test))
 
+# print model architecture
+model.summary()
+
+# eval model
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
