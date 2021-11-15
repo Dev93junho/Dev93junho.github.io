@@ -9,14 +9,14 @@ import numpy as np
 img_rows = 28
 img_cols = 28
 
-(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data() # custom dataset은?
 
 input_shape = (img_rows, img_cols, 1)
 x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1)
 x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1)
 
-x_train = x_train.astype('float32') / 255.
-x_test = x_test.astype('float32') / 255.
+x_train = x_train.astype('float32') / 255. # float64 변경시 precision을 향상 시킬 수 있음
+x_test = x_test.astype('float32') / 255. # 다만 float64의 경우 메모리 사용량이 두배로 증가하므로 유의
 
 print('x_train shape:', x_train.shape)
 print(x_train.shape[0], 'train samples')
@@ -24,9 +24,10 @@ print(x_test.shape[0], 'test samples')
 
 batch_size = 128
 num_classes = 10
-epochs = 12  
+epochs = 12 # 정확한 분류를 위해 epoch을 높게 잡아도 됨. 그럼 최적 epoch은?
 
-y_train = np_utils.to_categorical(y_train, num_classes)
+# to_categorical 을 사용한다면 다음과 같이 변경해서 사용할 것 ** keras utils => keras.utils import np_utils **
+y_train = np_utils.to_categorical(y_train, num_classes) 
 y_test = np_utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
