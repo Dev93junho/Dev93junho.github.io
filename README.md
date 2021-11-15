@@ -1,5 +1,5 @@
-﻿# MLDL Study Repository
-- It's a repo for MLDL & OpenCV & NLP study review
+﻿# Repository Overview
+- This is My Review Note 
 
 ## MLDL
 ## OpenCV
