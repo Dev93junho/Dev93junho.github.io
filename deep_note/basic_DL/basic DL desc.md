@@ -1,11 +1,8 @@
 # basic Deep Learning
-
 ## Perceptron
 - AND Gate, NAND Gate, OR Gate, XOR Gate
 - Perceptron
-- Muti Layer Perceptron
-
-
+- MLP::Muti Layer Perceptron
 ## Neural Net
 ### Activation Function
 01. sigmoid
@@ -16,19 +13,12 @@
 06. ELU
 07. Swish
 08. SoftMax
-
 ## Back Propagate
-
 ## SGD
-
 ## Batch Normalize
-
 ## Overfitting, DropOut
-
 ## Hyper parameter
-
 ## Convolutional Neural Network
-
 ## Let's Start Deep Learning
 #### DNN
 #### Image Net
