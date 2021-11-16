@@ -39,18 +39,21 @@ epochs = 15 # 정확한 분류를 위해 epoch을 높게 잡아도 됨. 그럼 �
 y_train = np_utils.to_categorical(y_train, num_classes) 
 y_test = np_utils.to_categorical(y_test, num_classes)
 
+
 # Build model
-model = Sequential()    
-model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='valid', activation='relu', input_shape=input_shape))
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='same', activation='relu', input_shape=input_shape))
 model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))
+model.add(Conv2D(64, (2, 2), activation='softmax', padding='same'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, (2, 2), activation='relu', padding='same'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 model.add(Flatten())
-model.add(Dense(1000, activation='softmax'))
+model.add(Dense(1000, activation='relu'))
 model.add(Dropout(0.5))
-model.add(Dense(num_classes, activation='relu'))
-model.add(Dense(1))
+model.add(Dense(num_classes, activation='softmax'))
+model.summary()
 
 
 # Compile model
@@ -85,3 +88,4 @@ for n in range(16):
 
 plt.tight_layout()
 plt.show()
+
