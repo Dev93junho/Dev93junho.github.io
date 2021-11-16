@@ -6,6 +6,15 @@ from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.utils import np_utils
 import numpy as np
 
+# import gpu
+tf.debugging.set_log_device_placement(True)
+for gpu in tf.config.experimental.list_physical_devices("GPU"):
+    tf.config.experimental.set_virtual_device_configuration(
+        gpu, 
+        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)] # use 2048Mbyte
+    )
+
+# image setting
 img_rows = 28
 img_cols = 28
 
