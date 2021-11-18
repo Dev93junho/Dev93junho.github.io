@@ -12,14 +12,16 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.callbacks import ModelCheckpoint,EarlyStopping
 from keras.utils import np_utils
-import pickle
-import sys, os, random
-import pathlib
+import pickle, sys, os, random
 
 
 # load dataset from D-drive
 train_files = sorted(glob('D://dataset/handwrite_dataset/train/*'))
 test_files = sorted(glob('D://dataset/handwrite_dataset/test/*'))
+
+# load data_csv
+train_csv = pd.read_csv('D://dataset/handwrite_dataset/train/train_data.csv')
+test_csv = pd.read_csv('D://dataset/handwrite_dataset/test/test_data.csv')
 
 # # load dataset from tensorflow dataset 
 # (x_train, y_train), (x_test, y_test)=keras.dataset.add()
@@ -33,7 +35,7 @@ for gpu in tf.config.experimental.list_physical_devices("GPU"):
     )
 
 
-# import data
+# preprocessing data
 img_rows = 28
 img_cols = 28
 
