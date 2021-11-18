@@ -6,7 +6,8 @@ from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.callbacks import ModelCheckpoint,EarlyStopping
 from keras.utils import np_utils
 import functools
-import os
+import sys, os
+sys.path.append(os.pardir)
 
 # load dataset in D drive
 TRAIN_DATA_URL = "D://dataset/handwrite_dataset/train/train.csv"
