@@ -1,3 +1,10 @@
+import numpy as np
+import pandas as pd
+from glob import glob
+import cv2
+from IPython.display import Image, display
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import tensorflow as tf
 import keras
 from keras.models import Sequential
@@ -5,16 +12,20 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.callbacks import ModelCheckpoint,EarlyStopping
 from keras.utils import np_utils
-import functools
-import sys, os
-sys.path.append(os.pardir)
+import pickle
+import sys, os, random
+import pathlib
 
-# load dataset in D drive
-TRAIN_DATA_URL = "D://dataset/handwrite_dataset/train/train.csv"
-TEST_DATA_URL = "D://dataset/handwrite_dataset/test/test.csv"
 
-train_file_path = tf.keras.utils.get_file("train.csv", TRAIN_DATA_URL)
-test_file_path = tf.keras.utils.get_file("test.csv", TEST_DATA_URL)
+# load dataset from D-drive
+TRAIN_DATA_URL = "D://dataset/handwrite_dataset/train/"
+TEST_DATA_URL = "D://dataset/handwrite_dataset/test"
+
+train_img_path = os.path.join(TRAIN_DATA_URL, "train")
+test_img_path = os.path.join(TEST_DATA_URL, "test")
+
+# # load dataset from tensorflow dataset 
+# (x_train, y_train), (x_test, y_test)=keras.dataset.add()
 
 # import gpu
 tf.debugging.set_log_device_placement(True)
@@ -55,12 +66,15 @@ y_test = np_utils.to_categorical(y_test, num_classes)
 
 # build model
 model = Sequential()
-model.add(Conv2D)
+model.add(Conv2D(input_shape=(img_rows, img_cols), padding='same', activation='relu'))
 model.add(MaxPooling2D)
+model.add(Conv2D(activation='relu'))
+model.add(MaxPooling2D)
+model.add(Conv2D(activation='relu'))
 model.add(Dropout(0.5))
 model.add(Flatten)
 model.add(Dropout(0.25))
-model.add(Dense(num_classes, activation='relu'))
+model.add(Dense(num_classes, activation='softmax'))
 model.summary()
 
 # Compile model
@@ -73,7 +87,6 @@ hist = model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose
 
 
 # accuracy
-import numpy as np
 
 def ACCURACY(true, pred):   
     score = np.mean(true==pred)
