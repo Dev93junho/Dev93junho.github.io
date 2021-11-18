@@ -18,11 +18,8 @@ import pathlib
 
 
 # load dataset from D-drive
-TRAIN_DATA_URL = "D://dataset/handwrite_dataset/train/"
-TEST_DATA_URL = "D://dataset/handwrite_dataset/test"
-
-train_img_path = os.path.join(TRAIN_DATA_URL, "train")
-test_img_path = os.path.join(TEST_DATA_URL, "test")
+train_files = sorted(glob('D://dataset/handwrite_dataset/train/*'))
+test_files = sorted(glob('D://dataset/handwrite_dataset/test/*'))
 
 # # load dataset from tensorflow dataset 
 # (x_train, y_train), (x_test, y_test)=keras.dataset.add()
@@ -40,8 +37,8 @@ for gpu in tf.config.experimental.list_physical_devices("GPU"):
 img_rows = 28
 img_cols = 28
 
-(x_train, y_train) = TRAIN_DATA_URL
-(x_test, y_test) = TEST_DATA_URL
+(x_train, y_train) = train_files
+(x_test, y_test) = test_files
 
 input_shape = (img_rows, img_cols, 1)
 x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1)
