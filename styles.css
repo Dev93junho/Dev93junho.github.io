@@ -36,19 +36,19 @@ footer>div{
     margin: auto;
 }
 
-footer>div>ul{
+footer>div>nav{
     display: flex;
     flex-direction: row;
     gap: 20px;
     justify-content: center;
 }
 
-footer>div>ul>li{
+footer>div>nav>li{
     list-style: none;
     text-align: center;
 }
 
-footer>div>ul>li>a{
+footer>div>nav>li>a{
     color: #fff;
     text-decoration: none;
     font-weight: bold;
