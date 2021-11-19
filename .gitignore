@@ -5,6 +5,9 @@
 
 # created in 21.08.06, JunhoShin
 
+### common ###
+*.exe
+
 ### C++ ###
 # Prerequisites
 *.d
