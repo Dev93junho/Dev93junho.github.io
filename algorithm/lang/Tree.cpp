@@ -53,6 +53,11 @@ class Function {
     }
 };
 
+
+/* 
+PVariable 변수 v가 가진 실수 a를 출력
+PVariable의 리스트에 있는 모든 변수를 traverse에 전달=> reculsive method
+*/
 void traverse(PVariable v){
     cout << v -> a << endl;
 
@@ -63,6 +68,7 @@ void traverse(PVariable v){
         traverse(f -> v[i]);
     }
 }
+
 
 int main(void) {
 
