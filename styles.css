@@ -54,6 +54,11 @@ footer>div>nav>li>a{
     font-weight: bold;
 }
 
+footer>i{
+    width: 24px;
+    height: 24px;
+}
+
 footer>div>h4{
     text-align: center;
     color: #fff;
