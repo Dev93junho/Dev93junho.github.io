@@ -108,125 +108,99 @@ for gpu in tf.config.experimental.list_physical_devices("GPU"):
 # # pred = linear_reg.predict(X)
 # # print(compute_acc(y, pred))
 
-# ## -------------------------------------------------------------#
+#----------------- set the hyper parameters ------------------#
+batch_size = 128
+num_classes = 10
+epochs = 50 # 정확한 분류를 위해 epoch을 높게 잡아도 됨. 그럼 최적 epoch은?
 
+img_rows = 28 # image size
+img_cols = 28
+#--------------------------------------------------------------#
+
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential
+from keras.utils import np_utils
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
+
+# import dataset
+idx_train, idx_test = train_test_split(range(dataset.shape[0]), test_size=0.25, random_state=101)
+
+X_train = dataset.X[idx_train, :, :, :]
+X_test = dataset.X[idx_test, :, :, :]
+y_train = dataset.y[idx_train, :]
+y_test = dataset.y[idx_test, :]
     
-# # test dataset convert
-# test_dataset = []
+input_shape = (img_rows, img_cols, 1)
+x_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
+x_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
 
-# for test_file in test_csv['file_name']:
-#     image_array = np.array(Image.open(test_img_dir + test_file))
-#     test_dataset.append(image_array)
-    
-# test_dataset = np.array(test_dataset)
+x_train = x_train.astype('float32') / 255. # float64 변경시 precision을 향상 시킬 수 있음
+x_test = x_test.astype('float32') / 255. # 다만 float64의 경우 메모리 사용량이 두배로 증가하므로 유의
 
-# # convert test data size 
-# test_dataset = test_dataset/255.
-# test_datset = test_dataset.reshape(-1, test_dataset.shape[1], test_dataset.shape[2], 1)
-
-# # split data
-# from sklearn.model_selection import train_test_split
-# train_dataset, validation_dataset, train_dataset_label, validation_dataset_label = train_test_split(dataset, dataset_label, test_size = 0.2, stratify = dataset_label)
+print('x_train shape:', x_train.shape)
+print(x_train.shape[0], 'train samples')
+print(x_test.shape[0], 'test samples')
 
 
-# import os, random
-# from glob import glob
+# to_categorical 을 사용한다면 다음과 같이 변경해서 사용할 것 ** keras utils => keras.utils import np_utils **
+y_train = np_utils.to_categorical(y_train, num_classes) 
+y_test = np_utils.to_categorical(y_test, num_classes)
+
+# Build model
+model = Sequential()
+model.add(Conv2D(784, kernel_size=(5, 5), strides=(1, 1), padding='same', activation='relu', input_shape=input_shape))
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+model.add(Conv2D(128, (2, 2), activation='softmax', padding='same'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(32, (2, 2), activation='relu', padding='same'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+model.add(Flatten())
+model.add(Dense(1000, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(num_classes, activation='softmax'))
+
+# Compile model
+model.compile(
+    loss='categorical_crossentropy', 
+    optimizer='adam', 
+    metrics=['accuracy'])
 
 
-# # fixed seed for precision
-# def seed_everything(seed=0):
-#     random.seed(seed)
-#     np.random.seed(seed)
-#     tf.random.set_seed(seed)
-#     os.environ['PYTHONHASHSEED'] = str(seed)
-    
-# seed = 1901
-# seed_everything(seed)
+hist = model.fit(
+    X_train, y_train, 
+    batch_size=batch_size, epochs=epochs, 
+    verbose=1, validation_data=(X_test, y_test), 
+    shuffle=True)
 
-# # set the hyper parameters
-# batch_size = 128
-# num_classes = 10
-# epochs = 50 # 정확한 분류를 위해 epoch을 높게 잡아도 됨. 그럼 최적 epoch은?
+# print model architecture
+model.summary()
 
-# img_rows = 28 # image size
-# img_cols = 28
-
-# ## -------------------------------------------------------------------------------#
-
-# # import dataset
-# (x_train, y_train), (x_test, y_test) = train_images, test_images
-
-# input_shape = (img_rows, img_cols, 1)
-# x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1)
-# x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1)
-
-# x_train = x_train.astype('float32') / 255. # float64 변경시 precision을 향상 시킬 수 있음
-# x_test = x_test.astype('float32') / 255. # 다만 float64의 경우 메모리 사용량이 두배로 증가하므로 유의
-
-# print('x_train shape:', x_train.shape)
-# print(x_train.shape[0], 'train samples')
-# print(x_test.shape[0], 'test samples')
+# eval model
+score = model.evaluate(x_test, y_test, verbose=0)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
 
 
-# # to_categorical 을 사용한다면 다음과 같이 변경해서 사용할 것 ** keras utils => keras.utils import np_utils **
-# y_train = np_utils.to_categorical(y_train, num_classes) 
-# y_test = np_utils.to_categorical(y_test, num_classes)
+import matplotlib.pyplot as plt
 
-# # Build model
-# model = Sequential()
-# model.add(Conv2D(784, kernel_size=(5, 5), strides=(1, 1), padding='same', activation='relu', input_shape=input_shape))
-# model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-# model.add(Conv2D(128, (2, 2), activation='softmax', padding='same'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Conv2D(32, (2, 2), activation='relu', padding='same'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Dropout(0.25))
-# model.add(Flatten())
-# model.add(Dense(1000, activation='relu'))
-# model.add(Dropout(0.5))
-# model.add(Dense(num_classes, activation='softmax'))
+predicted_result = model.predict(x_test)
+predicted_labels = np.argmax(predicted_result, axis=1)
 
-# # Compile model
-# model.compile(
-#     loss='categorical_crossentropy', 
-#     optimizer='adam', 
-#     metrics=['accuracy'])
+test_labels = np.argmax(y_test, axis=1)
 
+count = 0
 
-# hist = model.fit(
-#     x_train, y_train, 
-#     batch_size=batch_size, epochs=epochs, 
-#     verbose=1, validation_data=(x_test, y_test), 
-#     callbacks=callbacks ,shuffle=True)
+plt.figure(figsize=(12,8))
 
-# # print model architecture
-# model.summary()
+for n in range(16):
+    count += 1
+    plt.subplot(4, 4, count)
+    plt.imshow(x_test[n].reshape(28, 28), cmap='Greys', interpolation='nearest')
+    tmp = "Label:" + str(test_labels[n]) + ", Prediction:" + str(predicted_labels[n])
+    plt.title(tmp)
 
-# # eval model
-# score = model.evaluate(x_test, y_test, verbose=0)
-# print('Test loss:', score[0])
-# print('Test accuracy:', score[1])
-
-
-# import matplotlib.pyplot as plt
-
-# predicted_result = model.predict(x_test)
-# predicted_labels = np.argmax(predicted_result, axis=1)
-
-# test_labels = np.argmax(y_test, axis=1)
-
-# count = 0
-
-# plt.figure(figsize=(12,8))
-
-# for n in range(16):
-#     count += 1
-#     plt.subplot(4, 4, count)
-#     plt.imshow(x_test[n].reshape(28, 28), cmap='Greys', interpolation='nearest')
-#     tmp = "Label:" + str(test_labels[n]) + ", Prediction:" + str(predicted_labels[n])
-#     plt.title(tmp)
-
-# plt.tight_layout()
-# plt.show()
+plt.tight_layout()
+plt.show()
