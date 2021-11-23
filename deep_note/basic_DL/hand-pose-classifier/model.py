@@ -82,7 +82,7 @@ tf.debugging.set_log_device_placement(True)
 for gpu in tf.config.experimental.list_physical_devices("GPU"):
     tf.config.experimental.set_virtual_device_configuration(
         gpu,
-        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=10240)]
+        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=5120)]
     )
 # ------------------------- import gpu -------------------------#
 
@@ -122,13 +122,16 @@ from tensorflow.keras.models import Sequential
 from keras.utils import np_utils
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 
-# import dataset
-idx_train, idx_test = train_test_split(range(dataset.shape[0]), test_size=0.25, random_state=101)
+X = dataset.astype(int)
+y = dataset.astype(int)
 
-X_train = dataset.X[idx_train, :, :, :]
-X_test = dataset.X[idx_test, :, :, :]
-y_train = dataset.y[idx_train, :]
-y_test = dataset.y[idx_test, :]
+# import dataset
+idx_train, idx_test = train_test_split(range(X.shape[0]), test_size=0.25, random_state=101)
+
+X_train = X[idx_train, :, :, :]
+X_test = X[idx_test, :, :, :]
+y_train = y[idx_train, :]
+y_test = y[idx_test, :]
     
 input_shape = (img_rows, img_cols, 1)
 x_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
@@ -164,7 +167,7 @@ model.add(Dense(num_classes, activation='softmax'))
 
 # Compile model
 model.compile(
-    loss='categorical_crossentropy', 
+    loss='sparse_categorical_crossentropy', 
     optimizer='adam', 
     metrics=['accuracy'])
 
