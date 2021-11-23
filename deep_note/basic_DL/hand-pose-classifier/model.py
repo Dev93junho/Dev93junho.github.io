@@ -1,11 +1,8 @@
-from datetime import date
-from keras import callbacks
-import pandas as pd
-
-# load img
+# basic Module import
 from PIL import Image 
-import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # set the dataset directory
 train_img_dir = 'D://dataset/handwrite_dataset/train/'
@@ -14,10 +11,6 @@ test_img_dir = 'D://dataset/handwrite_dataset/test/'
 # load data.csv 
 train_csv = pd.read_csv('D:/dataset/handwrite_dataset/train/train_data.csv')
 test_csv = pd.read_csv('D:/dataset/handwrite_dataset/test/test_data.csv')
-
-# # print csv
-# print(train)
-# print(test)
 
 # save the dataset & label
 dataset=[]
@@ -40,61 +33,60 @@ dataset_label = np.array(dataset_label)
 dataset = dataset/255.
 dataset = dataset.reshape(-1, dataset.shape[1], dataset.shape[2], 1)
 
-# test dataset convert
-test_dataset = []
+# --------------------Start Augmentation --------------------#
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-for test_file in test_csv['file_name']:
-    image_array = np.array(Image.open(test_img_dir + test_file))
-    test_dataset.append(image_array)
+img_gen = ImageDataGenerator(
+    rotation_range=15,
+    zoom_range=0.1,
+    shear_range=0.6,
+    width_shift_range=0.15,
+    height_shift_range=0.1,
+    horizontal_flip=False,
+    vertical_flip=False
+)
+
+aug_size = 55000
+
+random_mask = np.random.randint(dataset.shape[0], size=aug_size)
+dataset_aug = dataset[random_mask].copy()
+dataset_label_aug = dataset_label[random_mask].copy()
+
+dataset_aug = img_gen.flow(dataset_aug, np.zeros(aug_size),
+                           batch_size=aug_size, shuffle=False).next()[0]
+
+dataset = np.concatenate((dataset, dataset_aug))
+dataset_label = np.concatenate((dataset_label, dataset_label_aug))
+
+print("dataset shape:", dataset.shape)
+print("dataset label shape:", dataset_label.shape)
+
+num_sample = 5
+random_idxs = np.random.randint(60000, size=num_sample)
+
+plt.figure(figsize=(14,8))
+for i, idx in enumerate(random_idxs):
+    img = dataset[idx, :]
+    label = dataset_label[idx]
     
-test_dataset = np.array(test_dataset)
+    plt.subplot(1, len(random_idxs), i+1)
+    plt.imshow(img)
+    plt.title("Index : {}, Label :{}".format(idx, label))
 
-# convert test data size 
-test_dataset = test_dataset/255.
-test_datset = test_dataset.reshape(-1, test_dataset.shape[1], test_dataset.shape[2], 1)
-
-# split data
-from sklearn.model_selection import train_test_split
-train_dataset, validation_dataset, train_dataset_label, validation_dataset_label = train_test_split(dataset, dataset_label, test_size = 0.2, stratify = dataset_label)
+# ---------------------- End Augmentation ----------------------#
 
 
+# ------------------------- import gpu -------------------------#
+tf.debugging.set_log_device_placement(True)
+for gpu in tf.config.experimental.list_physical_devices("GPU"):
+    tf.config.experimental.set_virtual_device_configuration(
+        gpu,
+        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=10240)]
+    )
+# ------------------------- import gpu -------------------------#
 
-# Array를 저장할 디렉터리
-dataset_dir = "D://dataset/handwrite_dataset/"
-
-# 모든 데이터세트 저장
-np.save(dataset_dir + "train_dataset.npy", train_dataset)
-np.save(dataset_dir + "train_dataset_label.npy", train_dataset_label)
-
-np.save(dataset_dir + "validation_dataset.npy", validation_dataset)
-np.save(dataset_dir + "validation_dataset_label.npy", validation_dataset_label)
-
-np.save(dataset_dir + "test_dataset.npy", test_dataset)
-
-# dataset_loadtest = np.load(dataset_dir + "train_dataset.npy")
-# # Array가 잘 불러왔는지 이미지로 확인합니다.
-# import matplotlib.pyplot as plt 
-# # 첫 번째 이미지를 불러와봅니다.
-# plt.imshow(dataset_loadtest[0])
-
-# # import tensorflow
-# import tensorflow as tf
-# import keras
-# from keras.models import Sequential
-# from keras.layers import Dense, Dropout, Flatten
-# from keras.layers.convolutional import Conv2D, MaxPooling2D
-# from keras.callbacks import ModelCheckpoint,EarlyStopping
-# from keras.utils import np_utils
-
-# # import gpu
-# tf.debugging.set_log_device_placement(True)
-# for gpu in tf.config.experimental.list_physical_devices("GPU"):
-#     tf.config.experimental.set_virtual_device_configuration(
-#         gpu,
-#         [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)]
-#     )
-
-# ## -------------------------------------------------------------------------------#
+# ## -----------------------------------------------------------#
 # # # sklearn Logistic Regression
 # # from sklearn.linear_model import LogisticRegression
 
@@ -116,7 +108,27 @@ np.save(dataset_dir + "test_dataset.npy", test_dataset)
 # # pred = linear_reg.predict(X)
 # # print(compute_acc(y, pred))
 
-# ## -------------------------------------------------------------------------------#
+# ## -------------------------------------------------------------#
+
+    
+# # test dataset convert
+# test_dataset = []
+
+# for test_file in test_csv['file_name']:
+#     image_array = np.array(Image.open(test_img_dir + test_file))
+#     test_dataset.append(image_array)
+    
+# test_dataset = np.array(test_dataset)
+
+# # convert test data size 
+# test_dataset = test_dataset/255.
+# test_datset = test_dataset.reshape(-1, test_dataset.shape[1], test_dataset.shape[2], 1)
+
+# # split data
+# from sklearn.model_selection import train_test_split
+# train_dataset, validation_dataset, train_dataset_label, validation_dataset_label = train_test_split(dataset, dataset_label, test_size = 0.2, stratify = dataset_label)
+
+
 # import os, random
 # from glob import glob
 
