@@ -1,13 +1,18 @@
 #include <iostream>
 
-using namespace std;
+using namespace std; 
+/*
+namespace 기반 함수선언 및 정의 구분
+중첩되는 함수 선언시 namespace를 잘활용할 수 있다
+using을 이용해 이름공간을 명시 할 수 있다
+*/
 
 int main(void){
     int num = 10;
     int i = 0;
 
-    cout << "ture: " << true << endl;
-    cout << "false: " << false << endl;
+    cout << "true: " << true << endl;
+    cout << "false: " << false << endl; 
 
     while(true)
     {
