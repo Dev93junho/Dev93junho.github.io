@@ -4,7 +4,7 @@
 # Updated by Junho
 
 # created in 21.08.06, JunhoShin
-
+*.code-workspace
 ### common ###
 *.exe
 
