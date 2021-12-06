@@ -4,6 +4,7 @@
  URL2 : https://hyunlee103.tistory.com/57
 '''
 
+from albumentations.augmentations.geometric.functional import keypoint_affine
 import pandas as pd
 import numpy as np
 import os
