@@ -45,6 +45,7 @@ header>nav>a{
     background-image: url('./img/profile.jpeg');
     background-position: 17% 55%;
     border-radius: 100px;
+    border-style: 3px solid #292929;
 }
 
 footer{
