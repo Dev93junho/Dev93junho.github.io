@@ -32,7 +32,20 @@ header>nav>a{
 .upper_board, .middle_board, .below_board{
     height: 70vh;
 }
+.upper_board{
+    background: #c4c4c4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+#profilepic{
+    width: 200px;
+    height: 200px;
+    background-image: url('./img/profile.jpeg');
+    background-position: 17% 55%;
+    border-radius: 100px;
+}
 
 footer{
     width: 100%;
