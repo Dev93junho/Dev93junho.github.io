@@ -1,2 +1,3 @@
-# Dev93junho.github.io
-my own blog
+# My blog 
+
+[link](https://dev93junho.github.io/)
