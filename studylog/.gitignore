@@ -5,8 +5,6 @@
 
 # created in 21.08.06, JunhoShin
 *.code-workspace
-### common ###
-*.exe
 
 ### C++ ###
 # Prerequisites
