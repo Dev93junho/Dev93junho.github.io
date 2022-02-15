@@ -5,7 +5,7 @@ using namespace std;
 using namespace cv;
 
 
-int Test(int, char) {
+int main2(int, char) {
 	Mat img = imread("test.png");
 	Sobel(img, img, img.depth(), 1, 0); // print sobel edge
 	namedWindow("img", 0);
