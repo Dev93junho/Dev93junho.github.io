@@ -7,7 +7,7 @@ using namespace std;
 int grayscale()
 {
 	Mat img_color;
-	img_color = imread("test.png");
+	img_color = imread("test.img");
 
 	if (img_color.empty())
 	{
