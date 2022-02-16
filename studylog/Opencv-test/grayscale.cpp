@@ -4,7 +4,7 @@
 using namespace cv;
 using namespace std;
 
-int main()
+int grayscale()
 {
 	Mat img_color;
 	img_color = imread("test.png");
