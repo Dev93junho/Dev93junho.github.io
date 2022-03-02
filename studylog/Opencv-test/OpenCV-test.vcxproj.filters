@@ -29,8 +29,5 @@
     <ClCompile Include="grayscale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="소스.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
