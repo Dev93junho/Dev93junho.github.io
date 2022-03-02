@@ -5,7 +5,7 @@ using namespace std;
 
 
 
-int main(int, char)
+int main3(int, char)
 {
 	// About Mat
 	//image Reading
