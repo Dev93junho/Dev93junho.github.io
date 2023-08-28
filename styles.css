@@ -16,6 +16,7 @@ header{
     display: flex;
     color: #fff;
     vertical-align: middle;
+    align-items: center;
 }
 
 header>nav{
@@ -41,12 +42,14 @@ header>nav>a{
 }
 
 #profilepic{
-    width: 200px;
-    height: 200px;
+    width: 50px;
+    height: 50px;
     background-image: url('./img/profile.jpeg');
-    background-position: 17% 55%;
+    background-position: 27% 55%;
     border-radius: 100px;
+    margin-left: 1%;
     border-style: 3px solid #292929;
+    z-index: 3;
 }
 
 footer{
